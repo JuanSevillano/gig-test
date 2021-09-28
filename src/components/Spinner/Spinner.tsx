@@ -1,4 +1,4 @@
-import { Backdrop, Fade } from '@material-ui/core';
+import { Backdrop, Box, Fade } from '@material-ui/core';
 import { FC } from 'react';
 import logo from '../../assets/logo.svg';
 
@@ -10,12 +10,11 @@ interface SpinnerProps {
 
 const Spinner: FC<SpinnerProps> = ({ loading }) => {
     return (
-        <Backdrop className={classes.spinner} open={loading}>
-            <Fade in={loading}>
-
-                <img src={logo} alt="Gig" />
-            </Fade>
-        </Backdrop>
+        <Fade in={loading}>
+            <Box className={classes.Spinner}>
+                <img className={classes.Image} src={logo} alt="Gig" />
+            </Box>
+        </Fade >
     )
 
 }

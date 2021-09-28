@@ -5,7 +5,7 @@ const webpack = require('webpack');
 module.exports = {
     mode: 'development',
     entry: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', path.resolve(__dirname, '..', 'src/index.tsx')],
-    devtool: 'inline-source-map',
+    devtool: 'eval-cheap-source-map',
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '..', 'public/index.html'),

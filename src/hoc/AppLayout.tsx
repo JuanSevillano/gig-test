@@ -16,8 +16,7 @@ interface LayoutProps {
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
         width: '100vw',
-        height: '100vh',
-        paddingTop: '60px',
+        paddingTop: '80px',
     },
     drawer: {
         width: '100%',

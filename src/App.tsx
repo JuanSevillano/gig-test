@@ -1,11 +1,11 @@
 import { ComponentType, lazy, useEffect } from 'react';
 import { Switch } from 'react-router-dom';
-import { Route } from 'react-router';
+import { Route, Router, useHistory } from 'react-router';
 
 
 import Theme from './styles/theme';
 import styles from './app.module.scss';
-import { Container, ThemeProvider } from '@material-ui/core';
+import { Container, Fade, ThemeProvider } from '@material-ui/core';
 import AppLayout from './hoc/AppLayout';
 import { useDispatch } from 'react-redux';
 import { loadPrevContacts } from './store/actions';
@@ -35,7 +35,7 @@ const routes: Array<RouteI> = new Array(
 
 const App = () => {
 
-
+    const history = useHistory();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -44,19 +44,24 @@ const App = () => {
 
     }, []);
 
+
+
     return (
         <ThemeProvider theme={Theme}>
             <AppLayout routes={routes}>
                 <div className={styles.app}>
-                    <Switch>
-                        {
-                            routes.map(view => <Route
-                                exact
-                                key={view.route}
-                                path={view.route}
-                                component={view.view} />)
-                        }
-                    </Switch>
+                    <Fade>
+                        <Switch>
+                            {
+                                routes.map(view => <Route
+                                    exact={true}
+                                    key={view.route}
+                                    path={view.route}
+                                    component={view.view} />)
+                            }
+                        </Switch>
+                    </Fade>
+
                 </div>
             </AppLayout>
         </ThemeProvider>

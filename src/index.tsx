@@ -4,17 +4,25 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import './styles/index.scss';
+import Spinner from './components/Spinner/Spinner';
 
 
 
-const App = lazy(() => import('./App'));
+
+const App = lazy(() => {
+    return Promise.all([
+        import("./App"),
+        new Promise(resolve => setTimeout(resolve, 1200))
+    ])
+        .then(([moduleExports]) => moduleExports);
+});
 
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <BrowserRouter>
-                <Suspense fallback={<p>loading....</p>}>
+                <Suspense fallback={<Spinner loading />}>
                     <App />
                 </Suspense>
             </BrowserRouter>

@@ -2,6 +2,45 @@
 
 .Spinner {
   @include flex-center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
   width: 100vw;
   height: 100vh;
+  background-color: rgba($color-white, 0.3);
+  animation: background-fade 1.2s linear;
+}
+
+.Spinner .Image {
+  opacity: 0;
+  z-index: 99;
+  animation: App-logo-fade 1.2s linear;
+}
+
+@keyframes background-fade {
+  0% {
+    background-color: rgba($color-white, 0.3);
+  }
+  70% {
+    background-color: rgba($color-white, 1);
+  }
+  100% {
+    background-color: rgba($color-white, 0.3);
+  }
+}
+
+@keyframes App-logo-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
 }

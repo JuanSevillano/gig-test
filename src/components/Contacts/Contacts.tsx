@@ -20,6 +20,7 @@ import { AppState } from '../../store/store';
 import styles from './Contacts.module.scss'
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { removeContact } from '../../store/actions';
+import { useHistory } from 'react-router';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Contacts: FC = (props) => {
 
 
+	const history = useHistory();
 	const dispatch = useDispatch();
 	const classes = useStyles();
 
@@ -48,8 +50,9 @@ const Contacts: FC = (props) => {
 
 
 
-	const onEdit = (conact: Contact) => {
-		// dispatch()
+	const onEdit = (contact: Contact) => {
+		const url: string = `/detail/${contact.name}`
+		history.push(url)
 	}
 
 	const onDelete = (contact: Contact) => dispatch(removeContact(contact));
@@ -57,27 +60,24 @@ const Contacts: FC = (props) => {
 
 	return (
 		<List dense className={classes.list}>
-			{contacts.map((contact: Contact) => {
-
-				return (
-					<Paper >
-						<ListItem className={classes.contact} key={contact.name} button>
-							<ListItemAvatar>
-								<Avatar alt={`Contact ${contact.name}`} />
-							</ListItemAvatar>
-							<ListItemText primary={`${contact.name}  ${contact.last_name}`} />
-							<ListItemSecondaryAction>
-								<IconButton onClick={() => onEdit(contact)}>
-									<EditOutlined />
-								</IconButton>
-								<IconButton onClick={() => onDelete(contact)}>
-									<DeleteOutlined />
-								</IconButton>
-							</ListItemSecondaryAction>
-						</ListItem>
-					</Paper>
-				);
-			})}
+			{contacts.map((contact: Contact) => (
+				<Paper key={contact.name} onClick={() => onEdit(contact)}>
+					<ListItem className={classes.contact} key={contact.name} button>
+						<ListItemAvatar>
+							<Avatar alt={`Contact ${contact.name}`} />
+						</ListItemAvatar>
+						<ListItemText primary={`${contact.name}  ${contact.last_name}`} />
+						<ListItemSecondaryAction>
+							<IconButton onClick={() => onEdit(contact)}>
+								<EditOutlined />
+							</IconButton>
+							<IconButton onClick={() => onDelete(contact)}>
+								<DeleteOutlined />
+							</IconButton>
+						</ListItemSecondaryAction>
+					</ListItem>
+				</Paper>))
+			}
 		</List>
 	)
 }
