@@ -21,7 +21,7 @@ module.exports = {
     },
     optimization: {
         splitChunks: {
-            chunks: 'all',
+            chunks: 'initial',
         },
     },
     resolve: {

@@ -1,7 +1,9 @@
+@import './styles/config.scss';
+
 .app {
   width: 100%;
   height: 100vh;
-  background-color: rebeccapurple;
+  background-color: $color-document;
   display: flex;
   flex-direction: column;
   justify-content: center;

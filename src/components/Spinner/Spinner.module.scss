@@ -1,0 +1,7 @@
+@import '../../styles/config.scss';
+
+.Spinner {
+  @include flex-center;
+  width: 100vw;
+  height: 100vh;
+}

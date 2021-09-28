@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["es2018", "DOM"],
-    "module": "es6",
+    "module": "esnext",
     "target": "es5",
     "outDir": "./build/",
     "moduleResolution": "node",
@@ -17,7 +17,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true
   },
   "include": ["src"]
 }
