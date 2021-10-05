@@ -1,5 +1,6 @@
 export {
     createContact,
     loadPrevContacts,
-    removeContact
+    removeContact,
+    editContact
 } from './contact'

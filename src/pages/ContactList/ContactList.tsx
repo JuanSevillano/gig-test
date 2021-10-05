@@ -1,5 +1,5 @@
 
-import { Box, Fab, makeStyles, createStyles, Theme, LinearProgress, Backdrop } from '@material-ui/core';
+import { Box, Fab, makeStyles, createStyles, Theme, LinearProgress, Backdrop, Fade } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -47,21 +47,23 @@ const ContactList: FC = (props: any) => {
 
 
 	return (
-		<Box className={classes.root}>
-			<Contacts />
-			<Fab
-				className={classes.addIcon}
-				onClick={() => setIsAdding(prev => !prev)}
-				color="primary"
-				aria-label="add">
-				<Add />
-			</Fab>
-			<AddContact
-				isAdding={isAdding}
-				onClose={() => setIsAdding(false)}
-			/>
-			<Spinner loading={loading} />
-		</Box >
+		<Fade in={true} timeout={2000}>
+			<Box className={classes.root}>
+				<Contacts />
+				<AddContact
+					isAdding={isAdding}
+					onClose={() => setIsAdding(false)}
+				/>
+				<Spinner loading={loading} />
+				<Fab
+					className={classes.addIcon}
+					onClick={() => setIsAdding(prev => !prev)}
+					color="primary"
+					aria-label="add">
+					<Add />
+				</Fab>
+			</Box >
+		</Fade>
 	)
 }
 

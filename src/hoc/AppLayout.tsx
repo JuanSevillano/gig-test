@@ -34,7 +34,7 @@ const AppLayout: FC<LayoutProps> = ({ children, routes }) => {
     const classes = useStyles();
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const menuHandler = (url: string): void => history.push(url)
+    const menuHandler = (url: string): void => history.push(url);
 
 
     return (
@@ -49,7 +49,7 @@ const AppLayout: FC<LayoutProps> = ({ children, routes }) => {
                     className: classes.drawer
                 }}>
                 <List>
-                    {routes.map((route: RouteI) => (
+                    {routes.filter(route => route.route !== '/detail/:id').map((route: RouteI) => (
                         <ListItem
                             key={route.route}
                             button

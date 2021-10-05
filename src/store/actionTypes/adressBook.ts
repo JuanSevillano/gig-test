@@ -18,7 +18,7 @@ export const REMOVE_CONTACT_FAILED = 'REMOVE_CONTACT_FAILED';
 
 
 export type Contact = {
-    id?: number;
+    id?: string;
     name: string;
     last_name: string;
     email: string;
@@ -51,11 +51,26 @@ export interface RemoveContact {
 
 export interface RemoveContactSuccess {
     type: typeof REMOVE_CONTACT_SUCCESS;
-    payload: { name: string }
+    payload: { id: string }
 }
 
 export interface RemoveContactFailed {
     type: typeof REMOVE_CONTACT_FAILED;
+    error: string;
+}
+
+
+export interface EditContact {
+    type: typeof EDIT_CONTACT
+}
+
+export interface EditContactSuccess {
+    type: typeof EDIT_CONTACT_SUCCESS;
+    payload: { contact: Contact }
+}
+
+export interface EditContactFailed {
+    type: typeof EDIT_CONTACT_FAILED,
     error: string;
 }
 
@@ -67,4 +82,7 @@ export type AddressBookDispatchTypes =
     LoadPrevContacts |
     RemoveContact |
     RemoveContactSuccess |
-    RemoveContactFailed 
+    RemoveContactFailed |
+    EditContact |
+    EditContactSuccess |
+    EditContactFailed

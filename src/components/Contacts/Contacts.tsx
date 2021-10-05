@@ -9,7 +9,8 @@ import {
 	ListItemSecondaryAction,
 	ListItemText,
 	IconButton,
-	Theme
+	Theme,
+	Typography
 } from '@material-ui/core';
 import { EditOutlined, DeleteOutlined } from '@material-ui/icons';
 import { Contact } from '../../store/actionTypes/adressBook';
@@ -19,7 +20,7 @@ import { AppState } from '../../store/store';
 
 import styles from './Contacts.module.scss'
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { removeContact } from '../../store/actions';
+import { editContact, removeContact } from '../../store/actions';
 import { useHistory } from 'react-router';
 
 
@@ -51,7 +52,7 @@ const Contacts: FC = (props) => {
 
 
 	const onEdit = (contact: Contact) => {
-		const url: string = `/detail/${contact.name}`
+		const url: string = `/detail/${contact.id}`
 		history.push(url)
 	}
 
@@ -68,15 +69,19 @@ const Contacts: FC = (props) => {
 						</ListItemAvatar>
 						<ListItemText primary={`${contact.name}  ${contact.last_name}`} />
 						<ListItemSecondaryAction>
-							<IconButton onClick={() => onEdit(contact)}>
-								<EditOutlined />
-							</IconButton>
-							<IconButton onClick={() => onDelete(contact)}>
+							<IconButton onClick={(e) => { e.stopPropagation(); onDelete(contact) }}>
 								<DeleteOutlined />
 							</IconButton>
 						</ListItemSecondaryAction>
 					</ListItem>
 				</Paper>))
+			}
+			{
+				contacts.length < 1
+					? <Typography variant="h5" align="center">
+						There's not contact yet.. add one :)
+					</Typography>
+					: null
 			}
 		</List>
 	)

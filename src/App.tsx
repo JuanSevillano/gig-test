@@ -28,7 +28,7 @@ const routes: Array<RouteI> = new Array(
     },
     {
         route: '/detail/:id',
-        label: 'Detail Contact',
+        label: 'Edit Contact',
         view: DetailContact
     });
 

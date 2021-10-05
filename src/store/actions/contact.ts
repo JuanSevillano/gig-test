@@ -14,8 +14,14 @@ import {
     REMOVE_CONTACT_SUCCESS,
     RemoveContactSuccess,
     RemoveContactFailed,
-    REMOVE_CONTACT_FAILED
+    REMOVE_CONTACT_FAILED,
+    EDIT_CONTACT_SUCCESS,
+    EDIT_CONTACT_FAILED,
+    EDIT_CONTACT
 } from "../actionTypes/adressBook";
+
+import { v4 as uid } from 'uuid';
+
 
 export const createContact = (contact: Contact) => async (dispatch: Dispatch) => {
 
@@ -25,9 +31,15 @@ export const createContact = (contact: Contact) => async (dispatch: Dispatch) =>
     // Api calling simulation
     let error;
     setTimeout(() => {
+
         error = false;
-        dispatch(contactCreated(contact));
-    }, 1000);
+        const createdContact: Contact = {
+            id: uid(),
+            ...contact
+        }
+        dispatch(contactCreated(createdContact));
+
+    }, 300);
 
     if (error) {
         dispatch(contactCreateFailed(error));
@@ -64,8 +76,8 @@ export const removeContact = (contact: Contact) => async (dispatch: Dispatch) =>
     dispatch(removeContactStart())
     setTimeout(() => {
         error = false;
-        dispatch(removeContactSuccess(contact.name))
-    }, 1500)
+        dispatch(removeContactSuccess(contact.id as string))
+    }, 300)
 
     if (error) {
         dispatch(removeContactFailed(error));
@@ -77,12 +89,42 @@ const removeContactStart = (): RemoveContact => ({
     type: REMOVE_CONTACT
 })
 
-const removeContactSuccess = (name: string): RemoveContactSuccess => ({
+const removeContactSuccess = (id: string): RemoveContactSuccess => ({
     type: REMOVE_CONTACT_SUCCESS,
-    payload: { name: name }
+    payload: { id }
 })
 
 const removeContactFailed = (error: string): RemoveContactFailed => ({
     type: REMOVE_CONTACT_FAILED,
+    error
+})
+
+
+export const editContact = (contact: Contact) => async (dispatch: Dispatch) => {
+
+    let error;
+    dispatch(editContactStart());
+    setTimeout(() => {
+        error = false;
+        dispatch(editContactSuccess(contact));
+    }, 300);
+
+    if (error) {
+        dispatch(editContactFailed(error));
+    }
+
+}
+
+const editContactStart = () => ({
+    type: EDIT_CONTACT
+})
+
+const editContactSuccess = (contact: Contact) => ({
+    type: EDIT_CONTACT_SUCCESS,
+    payload: { contact }
+});
+
+const editContactFailed = (error: string) => ({
+    type: EDIT_CONTACT_FAILED,
     error
 })

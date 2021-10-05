@@ -15,7 +15,13 @@ import {
     CREATE_CONTACT_FAILED,
     CreateContactFailed,
     REMOVE_CONTACT_FAILED,
-    RemoveContactFailed
+    RemoveContactFailed,
+    EditContact,
+    EditContactSuccess,
+    EDIT_CONTACT,
+    EditContactFailed,
+    EDIT_CONTACT_SUCCESS,
+    EDIT_CONTACT_FAILED
 } from "../actionTypes/adressBook";
 
 interface AddressBookI {
@@ -37,8 +43,6 @@ const initialState: AddressBookI = {
 
 const createContact = (state: AddressBookI, { payload }: CreateContact): AddressBookI => {
 
-    console.log(payload)
-
     const updatedState: AddressBookI = {
         ...state,
         loading: true
@@ -51,8 +55,7 @@ const createContact = (state: AddressBookI, { payload }: CreateContact): Address
 
 const createContactSuccess = (state: AddressBookI, { payload }: CreateContactSuccess): AddressBookI => {
 
-    // We can check for duplicated contacts
-
+    // We can check for duplicated contact
 
     const updatedContacts: Array<Contact> = [
         ...state.contacts,
@@ -61,7 +64,8 @@ const createContactSuccess = (state: AddressBookI, { payload }: CreateContactSuc
 
     const updatedState: AddressBookI = {
         ...state,
-        contacts: updatedContacts
+        contacts: updatedContacts,
+        loading: false
     }
 
     savePersistance('contacts', updatedState);
@@ -71,13 +75,13 @@ const createContactSuccess = (state: AddressBookI, { payload }: CreateContactSuc
 
 const createContactFailed = (state: AddressBookI, { error }: CreateContactFailed): AddressBookI => {
 
-    // We can check for duplicated contacts
 
     console.log('error => ', error);
 
     const updatedState: AddressBookI = {
         ...state,
-        error: true
+        error: true,
+        loading: false
     }
 
 
@@ -87,7 +91,7 @@ const createContactFailed = (state: AddressBookI, { error }: CreateContactFailed
 
 const loadPrevContacts = (state: AddressBookI, action: LoadPrevContacts): AddressBookI => {
 
-    const prevContacts: Array<Contact> = getPersistance('contacts').contacts;
+    const prevContacts: Array<Contact> = getPersistance('contacts')?.contacts;
 
     if (!prevContacts) return state
 
@@ -111,11 +115,13 @@ const removeContact = (state: AddressBookI, action: RemoveContact): AddressBookI
 
 const removeContactSuccess = (state: AddressBookI, { payload }: RemoveContactSuccess): AddressBookI => {
 
-    const { name } = payload;
-    const updatedContacts: Array<Contact> = state.contacts.filter(contact => contact.name !== name);
+    const { id } = payload;
+    console.log('llega el id', id);
+    const updatedContacts: Array<Contact> = state.contacts.filter(contact => contact.id !== id);
     const updatedState: AddressBookI = {
         ...state,
-        contacts: updatedContacts
+        contacts: updatedContacts,
+        loading: false
     }
 
     savePersistance('contacts', updatedState);
@@ -125,8 +131,37 @@ const removeContactSuccess = (state: AddressBookI, { payload }: RemoveContactSuc
 
 const removeContactFailed = (state: AddressBookI, { error }: RemoveContactFailed): AddressBookI => {
 
-    const updatedState: AddressBookI = { ...state, error: true }; 
-    return updatedState; 
+    const updatedState: AddressBookI = { ...state, error: true };
+    return updatedState;
+}
+
+const editContact = (state: AddressBookI, action: EditContact): AddressBookI => {
+
+    const udpatedState: AddressBookI = { ...state, loading: true };
+
+    return udpatedState
+}
+
+
+
+const editContactSuccess = (state: AddressBookI, action: EditContactSuccess): AddressBookI => {
+
+    const { contact } = action.payload;
+
+    const updatedContacts = state.contacts.map(friend => friend.id !== contact.id ? friend : contact);
+    const updatedState: AddressBookI = { ...state, contacts: updatedContacts, loading: false };
+
+    savePersistance('contacts', updatedState);
+
+    return updatedState
+}
+
+const editContactFailed = (state: AddressBookI, action: EditContactFailed): AddressBookI => {
+
+    const { error } = action;
+    const updatedState: AddressBookI = { ...state, error: true, loading: false };
+
+    return updatedState
 }
 
 const addressBookReducer = (state: AddressBookI = initialState, action: AddressBookDispatchTypes): AddressBookI => {
@@ -138,6 +173,9 @@ const addressBookReducer = (state: AddressBookI = initialState, action: AddressB
         case REMOVE_CONTACT: return removeContact(state, action);
         case REMOVE_CONTACT_SUCCESS: return removeContactSuccess(state, action);
         case REMOVE_CONTACT_FAILED: return removeContactFailed(state, action);
+        case EDIT_CONTACT: return editContact(state, action);
+        case EDIT_CONTACT_SUCCESS: return editContactSuccess(state, action);
+        case EDIT_CONTACT_FAILED: return editContactFailed(state, action);
         default: return state;
     }
 }
