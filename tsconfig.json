@@ -2,7 +2,7 @@
   "compilerOptions": {
     "lib": ["es2018", "DOM"],
     "module": "esnext",
-    "target": "es5",
+    "target": "es6",
     "outDir": "./build/",
     "moduleResolution": "node",
     "sourceMap": true,
